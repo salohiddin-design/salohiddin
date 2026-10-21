@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShifoCheck — Tana xaritasi</title>
+<style>
+:root{--blue:#1479d0;--blue2:#42b8f4;--navy:#153c63;--pale:#eaf6ff;--ink:#18344f;--muted:#657e94;--line:#d7e8f5;--white:#fff;--shadow:0 14px 38px #13558a12}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f3faff,#fff 54%,#f5faff);line-height:1.5}
+header{background:linear-gradient(110deg,#126bc0,#32a9ef);color:white;padding:18px max(18px,calc((100% - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:0 5px 24px #1479d022}
+.brand{display:flex;gap:11px;align-items:center;font-size:1.35rem;font-weight:850}.logo{width:42px;height:42px;border-radius:14px;background:#ffffff26;display:grid;place-items:center;font-size:1.6rem}.brand span{color:#d9f5ff}.header-note{font-size:.85rem;border:1px solid #ffffff70;padding:7px 12px;border-radius:999px}
+main{max-width:1180px;margin:auto;padding:24px 18px 44px}.hero{display:flex;justify-content:space-between;align-items:end;gap:20px;padding:14px 0 22px}.hero h1{font-size:clamp(2rem,4vw,3.25rem);line-height:1.08;margin:0 0 10px;letter-spacing:-1.2px}.hero p{max-width:690px;color:var(--muted);margin:0}.mini-label{color:var(--blue);font-weight:800;font-size:.78rem;letter-spacing:1.4px;text-transform:uppercase}
+.notice{background:#fff7e8;border:1px solid #f0d8a8;border-radius:15px;padding:13px 16px;margin:0 0 22px;font-size:.92rem}
+.grid{display:grid;grid-template-columns:1.04fr .96fr;gap:20px;align-items:start}.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}.card h2{font-size:1.28rem;margin:0 0 5px}.desc{margin:0 0 17px;color:var(--muted);font-size:.92rem}
+.body-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center}.figure{background:linear-gradient(160deg,#f2faff,#e6f4ff);border:1px solid #d9edfc;border-radius:18px;min-height:330px;display:grid;place-items:center;padding:10px}.figure svg{width:100%;height:320px;max-width:250px}.body-base{fill:url(#skinBlue);stroke:#1676cf;stroke-width:2.5;filter:drop-shadow(0 3px 4px #1683d52b)}.body-detail{fill:none;stroke:#438bc7;stroke-width:1.7;stroke-linecap:round}.hotspot{fill:#fff;fill-opacity:.02;stroke:transparent;stroke-width:2;cursor:pointer;pointer-events:all;transition:fill .2s,stroke .2s}.hotspot:hover{fill:#36a7ff44;stroke:#1479d0}.hotspot.selected{fill:#1685e855;stroke:#076fc2;stroke-width:3}.legend{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--muted);margin-top:10px}.dot{width:9px;height:9px;border-radius:50%;background:var(--blue)}
+.parts{display:flex;flex-direction:column;gap:8px}.part-btn{border:1px solid var(--line);background:#fff;padding:10px 11px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:9px;color:var(--ink);font:inherit;cursor:pointer;transition:all .2s}.part-btn:hover,.part-btn.active{background:#eaf6ff;border-color:var(--blue);transform:translateX(2px)}.part-btn .symbol{width:29px;height:29px;border-radius:9px;background:#e8f5ff;color:var(--blue);display:grid;place-items:center;font-weight:800}.part-btn.active .symbol{background:var(--blue);color:white}
+.field{margin:17px 0 0}.field label,.label{font-weight:750;display:block;margin-bottom:8px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}input[type=text],input[type=number],select,textarea{width:100%;padding:12px;border:1px solid #c9deed;border-radius:12px;background:white;font:inherit;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1479d01a}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:10px;cursor:pointer;transition:.18s}.choice:has(input:checked){background:#eaf6ff;border-color:#69b6ee}.choice input{accent-color:var(--blue);margin-top:4px}.severity{display:flex;gap:8px;flex-wrap:wrap}.severity label{flex:1;min-width:90px;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font-size:.9rem}.severity input{accent-color:var(--blue)}.severity label:has(input:checked){background:#eaf6ff;border-color:var(--blue);color:#075ca6}
+.btn{border:0;padding:13px 17px;border-radius:13px;font:inherit;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s,filter .2s}.btn:hover{transform:translateY(-2px);box-shadow:0 9px 18px #1479d025;filter:saturate(1.1)}.primary{background:linear-gradient(110deg,#1378d0,#35b1f0);color:white}.secondary{background:#eaf5fd;color:#1a5b91}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:19px}
+.results{margin-top:20px}.empty{background:#f6fbff;border:1px dashed #c5dceb;border-radius:15px;padding:20px;color:var(--muted);text-align:center}.result-head{display:flex;gap:12px;align-items:center}.result-icon{width:44px;height:44px;background:#e5f5ff;border-radius:14px;display:grid;place-items:center;font-size:1.4rem}.result-title{font-size:1.16rem;font-weight:850}.tag{display:inline-block;border-radius:99px;background:#e6f6ff;color:#1266a6;padding:4px 9px;font-size:.78rem;font-weight:800}.result-alert{background:#fff4ed;border:1px solid #f3c7ac;border-radius:13px;padding:13px;margin:12px 0}.disease{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:12px;margin:8px 0}.disease input{accent-color:var(--blue);margin-top:5px}.disease small{display:block;color:var(--muted);margin-top:2px}
+.video-card{margin-top:20px;overflow:hidden}.video-screen{position:relative;min-height:200px;border-radius:17px;overflow:hidden;background:linear-gradient(135deg,#0d477d,#1479d0 58%,#45c3f4);color:white;padding:23px;display:flex;align-items:center;gap:18px}.play{width:58px;height:58px;flex:0 0 58px;background:#ffffff2b;border:1px solid #ffffff80;border-radius:50%;display:grid;place-items:center;font-size:1.4rem}.video-screen h3{font-size:1.28rem;margin:0 0 7px}.video-screen p{margin:0;color:#e1f4ff;font-size:.92rem}.pulse{position:absolute;width:210px;height:210px;border:1px solid #ffffff2b;border-radius:50%;right:-45px;bottom:-100px;animation:pulse 3s ease-in-out infinite}.pulse:before,.pulse:after{content:"";position:absolute;inset:18px;border:1px solid #ffffff25;border-radius:50%}.pulse:after{inset:38px}@keyframes pulse{0%,100%{transform:scale(.92);opacity:.65}50%{transform:scale(1.08);opacity:1}}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:13px}.step{border:1px solid var(--line);border-radius:13px;padding:12px;background:#fbfdff}.step b{display:block;color:var(--blue);font-size:.83rem;margin-bottom:4px}.step span{font-size:.87rem;color:var(--muted)}.footnote{font-size:.83rem;color:var(--muted);margin-top:14px}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.hero{align-items:start;flex-direction:column}.body-wrap{grid-template-columns:minmax(140px,.8fr) 1fr}.card{padding:17px}}
+@media(max-width:520px){main{padding:17px 12px}.body-wrap{grid-template-columns:1fr}.figure{min-height:300px}.figure svg{height:290px}.parts{display:grid;grid-template-columns:1fr 1fr}.row,.choices{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.header-note{display:none}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">✚</div><div>Shifo<span>Check</span></div></div><div class="header-note">Tana xaritasi · Alomatlar yordamchisi</div></header>
+<main>
+<section class="card" style="margin-bottom:18px;padding:18px 20px">
+<h2 style="margin-bottom:10px">Bemor ma’lumotlari</h2>
+<div class="row">
+<div class="field"><label for="firstName">Ism</label><input id="firstName" type="text" placeholder="Ismingiz"></div>
+<div class="field"><label for="lastName">Familiya</label><input id="lastName" type="text" placeholder="Familiyangiz"></div>
+</div>
+</section>
+<section class="hero"><div><div class="mini-label">Sog‘liq bo‘yicha yordamchi</div><h1>Qayeringiz og‘riyapti?</h1><p>Odam maketida tana qismini tanlang, alomatlarni belgilang va keyingi qadamlar bo‘yicha umumiy tavsiyalar oling.</p></div></section>
+<div class="notice"><b>⚠ Muhim:</b> bu sayt tashxis qo‘ymaydi. Nafas olish qiyinlashishi, kuchli ko‘krak og‘rig‘i, hushdan ketish yoki to‘satdan yuz/qo‘l-oyoq kuchsizligi bo‘lsa, darhol tez yordam chaqiring.</div>
+<div class="grid">
+<section class="card">
+<h2>1. Tana maketi</h2><p class="desc">Ko‘k rangli, mushaklari ko‘rsatilgan odam maketidan tana qismini bosing yoki ro‘yxatdan tanlang.</p>
+<div class="body-wrap">
+<div><div class="figure">
+<svg viewBox="0 0 240 430" role="img" aria-label="Old tomondan ko‘rinadigan odam tanasi maketi">
+<defs>
+<linearGradient id="skinBlue" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8cccf5"/><stop offset="35%" stop-color="#d8f1ff"/><stop offset="65%" stop-color="#b5e2ff"/><stop offset="100%" stop-color="#69b8ee"/></linearGradient>
+<linearGradient id="muscleBlue" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#eaf8ff"/><stop offset="100%" stop-color="#70bdf0"/></linearGradient>
+</defs>
+<!-- Ko‘k tusli yumshoq tana qatlami va mushak shakllari -->
+<!-- Anatomically clearer, stylized front-view body silhouette -->
+<!-- head and neck -->
+<path class="body-base" d="M101 69 Q101 61 100 57 Q87 47 88 32 Q89 10 120 10 Q151 10 152 32 Q153 48 140 57 L139 69 L149 78 L91 78Z"/>
+<!-- ears -->
+<ellipse class="body-base" cx="88" cy="38" rx="5" ry="9"/><ellipse class="body-base" cx="152" cy="38" rx="5" ry="9"/>
+<!-- torso, shoulders, arms, hips, legs as one continuous silhouette -->
+<path class="body-base" d="M99 70
+Q86 72 75 80 Q64 87 59 103
+L39 166 Q35 178 44 182 Q53 186 58 173
+L76 121 L81 174
+Q80 195 82 217
+L76 247 Q74 260 87 264
+L91 318 L87 392 Q86 405 98 406 Q109 406 110 393
+L120 318 L130 393 Q132 406 143 406 Q155 405 153 392
+L149 318 L153 264 Q166 260 164 247
+L158 217 Q160 195 159 174 L164 121 L182 173
+Q187 186 196 182 Q205 178 201 166
+L181 103 Q176 87 165 80 Q154 72 141 70
+Q133 78 120 78 Q107 78 99 70Z"/>
+<!-- Mushaklar: soddalashtirilgan, tibbiy bo‘lmagan dekorativ shakllar -->
+<path d="M88 91 Q101 81 116 91 L115 125 Q104 139 91 127Z M124 91 Q139 81 152 91 L149 127 Q136 139 125 125Z" fill="url(#muscleBlue)" opacity=".72" stroke="#5ca9e4" stroke-width="1.2"/>
+<path d="M91 137 Q103 132 116 139 L115 163 Q103 169 91 159Z M124 139 Q137 132 149 137 L149 159 Q137 169 125 163Z" fill="#8acbf4" opacity=".52" stroke="#5ca9e4" stroke-width="1"/>
+<path d="M94 177 Q105 172 116 179 L115 211 Q104 217 94 208Z M124 179 Q136 172 146 177 L146 208 Q136 217 125 211Z" fill="#d8f1ff" opacity=".75" stroke="#5ca9e4" stroke-width="1"/>
+<path d="M64 111 Q72 104 78 116 L60 169 Q56 177 50 174Z M162 116 Q168 104 176 111 L190 174 Q184 177 180 169Z" fill="#a3dafa" opacity=".72"/>
+<path d="M91 268 Q101 265 112 270 L108 310 L103 380 Q99 389 94 380 L97 312Z M128 270 Q139 265 149 268 L143 312 L146 380 Q141 389 137 380 L132 310Z" fill="#a4d9f8" opacity=".72" stroke="#5ca9e4" stroke-width="1"/>
+<!-- anatomical detail lines -->
+<path class="body-detail" d="M101 70 Q120 85 139 70"/>
+<path class="body-detail" d="M83 111 Q99 101 112 111 M128 111 Q141 101 157 111"/>
+<path class="body-detail" d="M120 83 L120 163"/>
+<path class="body-detail" d="M85 169 Q120 181 155 169"/>
+<path class="body-detail" d="M85 174 Q120 188 155 174"/>
+<path class="body-detail" d="M87 218 Q120 229 153 218"/>
+<path class="body-detail" d="M89 244 Q120 253 151 244"/>
+<path class="body-detail" d="M99 264 L104 315 M141 264 L136 315"/>
+<path class="body-detail" d="M104 318 L99 378 M136 318 L141 378"/>
+<!-- clickable regions are transparent; selected region receives blue fill -->
+<ellipse class="hotspot" data-part="head" cx="120" cy="39" rx="32" ry="31"/>
+<path class="hotspot" data-part="chest" d="M80 91 Q120 76 160 91 L156 166 Q120 180 84 166Z"/>
+<path class="hotspot" data-part="abdomen" d="M84 169 Q120 183 156 169 L151 218 Q120 230 89 218Z"/>
+<path class="hotspot" data-part="pelvis" d="M89 220 Q120 231 151 220 L161 250 Q120 268 79 250Z"/>
+<path class="hotspot" data-part="leftArm" d="M75 86 L59 106 L40 166 Q36 177 45 181 Q53 184 58 172 L77 122 L83 158Z"/>
+<path class="hotspot" data-part="rightArm" d="M165 86 L181 106 L200 166 Q204 177 195 181 Q187 184 182 172 L163 122 L157 158Z"/>
+<path class="hotspot" data-part="leftLeg" d="M80 251 Q100 261 117 257 L111 316 L109 392 Q108 404 98 404 Q87 404 88 392 L92 318Z"/>
+<path class="hotspot" data-part="rightLeg" d="M123 257 Q140 261 160 251 L148 318 L152 392 Q153 404 142 404 Q132 404 131 392 L129 316Z"/>
+</svg></div><div class="legend"><span class="dot"></span> Ko‘k rangda belgilangan qism tanlangan</div></div>
+<div class="parts" id="parts">
+<button class="part-btn" data-part="head"><span class="symbol">◉</span>Bosh</button>
+<button class="part-btn" data-part="chest"><span class="symbol">♡</span>Ko‘krak</button>
+<button class="part-btn" data-part="abdomen"><span class="symbol">＋</span>Qorin</button>
+<button class="part-btn" data-part="pelvis"><span class="symbol">◇</span>Bel / tos</button>
+<button class="part-btn" data-part="leftArm"><span class="symbol">↖</span>Chap qo‘l</button>
+<button class="part-btn" data-part="rightArm"><span class="symbol">↗</span>O‘ng qo‘l</button>
+<button class="part-btn" data-part="leftLeg"><span class="symbol">↓</span>Chap oyoq</button>
+<button class="part-btn" data-part="rightLeg"><span class="symbol">↓</span>O‘ng oyoq</button>
+</div></div>
+<div class="field"><label for="painSide">Og‘riq qaysi tomonda?</label><select id="painSide"><option>O‘rtada</option><option>Chap tomonda</option><option>O‘ng tomonda</option><option>Ikkala tomonda</option><option>Aniq bilmayman</option></select></div>
+<div class="field"><label>Og‘riq kuchi</label><div class="severity"><label><input type="radio" name="pain" value="mild" checked> Yengil</label><label><input type="radio" name="pain" value="moderate"> O‘rtacha</label><label><input type="radio" name="pain" value="severe"> Kuchli</label></div></div>
+<div class="row">
+<div class="field"><label for="duration">Qachondan beri?</label><select id="duration"><option value="today">Bugun</option><option value="few">1–3 kun</option><option value="week">4–7 kun</option><option value="long">Bir haftadan ko‘p</option></select></div>
+<div class="field"><label for="age">Yosh</label><input id="age" type="number" min="1" max="120" placeholder="Yoshingiz"></div>
+</div>
+
+<div class="field"><label>Qanday alomatlar bor? ✓</label><div class="choices">
+<label class="choice"><input type="checkbox" name="symptom" value="fever">Isitma</label>
+<label class="choice"><input type="checkbox" name="symptom" value="cough">Yo‘tal / tomoq og‘rig‘i</label>
+<label class="choice"><input type="checkbox" name="symptom" value="headache">Bosh og‘rig‘i</label>
+<label class="choice"><input type="checkbox" name="symptom" value="nausea">Ko‘ngil aynishi</label>
+<label class="choice"><input type="checkbox" name="symptom" value="diarrhea">Ich ketishi</label>
+<label class="choice"><input type="checkbox" name="symptom" value="rash">Teri toshmasi</label>
+<label class="choice"><input type="checkbox" name="symptom" value="fatigue">Holsizlik</label>
+<label class="choice"><input type="checkbox" name="symptom" value="breathing">Nafas qisishi</label>
+<label class="choice"><input type="checkbox" name="symptom" value="swelling">Shish</label>
+<label class="choice"><input type="checkbox" name="symptom" value="injury">Jarohat / urilish</label>
+</div></div>
+<div class="field"><label for="notes">Qo‘shimcha izoh (ixtiyoriy)</label><textarea id="notes" rows="2" placeholder="Masalan, og‘riq harakat qilganda kuchayadi..."></textarea></div>
+<div class="actions"><button class="btn primary" id="analyze">Tahlil qilish →</button><button class="btn secondary" id="reset">Qaytadan boshlash</button></div>
+</section>
+<section>
+<div class="card">
+<h2>2. Tahlil natijasi</h2><p class="desc">Natija tanlangan tana qismi va alomatlar asosida shakllanadi.</p>
+<div id="result" class="empty">Avval tana qismini tanlang, alomatlarni belgilang va “Tahlil qilish” tugmasini bosing.</div>
+</div>
+<div class="card video-card">
+<h2>3. Nima qilish kerak? — video yo‘riqnoma</h2><p class="desc">Natijadan keyin tavsiyalar animatsion ko‘rinishda chiqadi.</p>
+<div class="video-screen"><div class="play">▶</div><div><h3 id="videoTitle">Sog‘liq bo‘yicha qisqa yo‘riqnoma</h3><p id="videoText">Tahlilni boshlang — sizga mos umumiy keyingi qadamlar shu yerda ko‘rsatiladi.</p></div><div class="pulse"></div></div>
+<div class="steps" id="steps"><div class="step"><b>01 · Kuzating</b><span>Alomatlarni qayd eting.</span></div><div class="step"><b>02 · Ehtiyot bo‘ling</b><span>O‘zingizcha dori ichmang.</span></div><div class="step"><b>03 · Maslahat oling</b><span>Zarur bo‘lsa shifokorga boring.</span></div></div>
+<p class="footnote">Bu haqiqiy shifokor videosi emas, balki sahifa ichidagi animatsion yo‘riqnoma. Tashxis uchun shifokor ko‘rigi kerak.</p>
+</div>
+</section>
+</div>
+</main>
+<footer style="max-width:1180px;margin:auto;padding:0 18px 35px;color:#657e94;font-size:.84rem">ShifoCheck demo · Ma’lumotlar serverga yuborilmaydi. Ism/familiyani kiritish majburiy emas. Kasallik nomlarini belgilash tasdiqlangan tashxis degani emas.</footer>
+<script>
+const partNames={head:'Bosh',chest:'Ko‘krak',abdomen:'Qorin',pelvis:'Bel / tos',leftArm:'Chap qo‘l',rightArm:'O‘ng qo‘l',leftLeg:'Chap oyoq',rightLeg:'O‘ng oyoq'};
+let selectedPart='';
+function selectPart(part){
+ selectedPart=part;
+ document.querySelectorAll('.hotspot').forEach(el=>el.classList.toggle('selected',el.dataset.part===part));
+ document.querySelectorAll('.part-btn').forEach(el=>el.classList.toggle('active',el.dataset.part===part));
+}
+document.querySelectorAll('[data-part]').forEach(el=>el.addEventListener('click',()=>selectPart(el.dataset.part)));
+const result=document.getElementById('result');
+document.getElementById('analyze').addEventListener('click',()=>{
+ const checked=[...document.querySelectorAll('input[name="symptom"]:checked')].map(x=>x.value);
+ const severity=document.querySelector('input[name="pain"]:checked').value;
+ const duration=document.getElementById('duration').value;
+ const age=Number(document.getElementById('age').value);
+ const name=([document.getElementById('firstName').value.trim(),document.getElementById('lastName').value.trim()].filter(Boolean).join(' '));
+ const side=document.getElementById('painSide').value;
+ if(!selectedPart){result.className='empty';result.textContent='Iltimos, avval odam maketidan yoki ro‘yxatdan og‘riyotgan tana qismini tanlang.';return}
+ const emergency=checked.includes('breathing')||severity==='severe'&&selectedPart==='chest';
+ let causes=[];
+ if(selectedPart==='head') causes=['Zo‘riqish, suvsizlanish yoki virusli kasallik kabi turli sabablar'];
+ if(selectedPart==='chest') causes=['Mushak zo‘riqishi, nafas yo‘llari yoki yurak bilan bog‘liq sabablar bo‘lishi mumkin; faqat alomat bilan ajratib bo‘lmaydi'];
+ if(selectedPart==='abdomen') causes=['Hazm tizimi bilan bog‘liq holatlar, infeksiya yoki boshqa sabablar'];
+ if(selectedPart==='pelvis') causes=['Mushak zo‘riqishi yoki siydik yo‘llari / boshqa a’zolar bilan bog‘liq sabablar'];
+ if(selectedPart.endsWith('Arm')||selectedPart.endsWith('Leg')) causes=['Mushak yoki bo‘g‘im zo‘riqishi, jarohat yoki boshqa sabablar'];
+ if(checked.includes('fever')) causes.push('Isitma bilan kechadigan infeksiya ehtimoli ham bor');
+ if(checked.includes('rash')) causes.push('Teri ta’sirlanishi, allergiya yoki infeksiya kabi sabablar');
+ if(checked.includes('nausea')||checked.includes('diarrhea')) causes.push('Hazm tizimi bilan bog‘liq muammo ham bo‘lishi mumkin');
+ let actions=['Dam oling va og‘riq qachon kuchayishi yoki kamayishini kuzating.','Suyuqlik iching, agar shifokor suyuqlikni cheklashni aytmagan bo‘lsa.','Og‘riq davom etsa, kuchaysa yoki takrorlansa, tibbiyot mutaxassisiga murojaat qiling.'];
+ if(checked.includes('injury')) actions=['Jarohatlangan joyni zo‘riqtirmang.','Kuchli og‘riq, deformatsiya yoki oyoq-qo‘lni ishlata olmaslik bo‘lsa, shoshilinch tibbiy yordam oling.'];
+ if(checked.includes('diarrhea')||checked.includes('nausea')) actions=['Oz-ozdan tez-tez suyuqlik iching.','Suyuqlik icha olmaslik, siydik kamayishi yoki kuchli holsizlik bo‘lsa, tibbiy yordam oling.'];
+ const selectedDiseaseOptions=[
+ {key:'viral',name:'Virusli infeksiya',desc:'Isitma, yo‘tal yoki holsizlik bilan kuzatilishi mumkin.'},
+ {key:'digestive',name:'Hazm tizimi bilan bog‘liq holat',desc:'Qorin og‘rig‘i, ko‘ngil aynishi yoki ich ketishi bilan kuzatilishi mumkin.'},
+ {key:'muscle',name:'Mushak yoki bo‘g‘im zo‘riqishi',desc:'Harakat bilan bog‘liq og‘riqda ehtimollardan biri.'},
+ {key:'allergy',name:'Allergik yoki teri ta’sirlanishi',desc:'Toshma yoki qichishish bo‘lsa, sabablaridan biri bo‘lishi mumkin.'}
+ ];
+ const suggestions=[];
+ if(checked.includes('fever')||checked.includes('cough')) suggestions.push('viral');
+ if(selectedPart==='abdomen'||checked.includes('nausea')||checked.includes('diarrhea')) suggestions.push('digestive');
+ if(['leftArm','rightArm','leftLeg','rightLeg','pelvis'].includes(selectedPart)||checked.includes('injury')) suggestions.push('muscle');
+ if(checked.includes('rash')||checked.includes('swelling')) suggestions.push('allergy');
+ const opts=selectedDiseaseOptions.filter(d=>suggestions.includes(d.key));
+ let html=`<div class="result-head"><div class="result-icon">🩺</div><div><span class="tag">${emergency?'Tez tibbiy baholash kerak':'Umumiy ma’lumot'}</span><div class="result-title">${partNames[selectedPart]} — ${side.toLowerCase()}</div></div></div>`;
+ if(name) html+=`<p><b>Bemor:</b> ${escapeHtml(name)}${age?`, ${age} yosh`:''}</p>`;
+ html+=`<p><b>Og‘riq kuchi:</b> ${severity==='mild'?'yengil':severity==='moderate'?'o‘rtacha':'kuchli'}. Quyidagilar faqat ehtimoliy sabablar, tashxis emas.</p><ul>${causes.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+ if(opts.length){html+=`<h3>Ehtimoliy yo‘nalishlar — xohlasangiz belgilang</h3><p class="desc">Belgilar kasallikni tasdiqlamaydi; bu faqat shifokor bilan muhokama qilish uchun.</p>`;html+=opts.map(d=>`<label class="disease"><input type="checkbox" class="diseasePick" value="${d.key}"><span><b>${d.name}</b><small>${d.desc}</small></span></label>`).join('');}
+ if(emergency) html+=`<div class="result-alert"><b>Shoshilinch ogohlantirish:</b> nafas qisishi yoki kuchli ko‘krak og‘rig‘i bo‘lsa, darhol mahalliy tez yordamga murojaat qiling. Natijani kutmang.</div>`;
+ html+=`<h3>Keyingi qadamlar</h3><ul>${actions.map(x=>`<li>${x}</li>`).join('')}</ul><p class="footnote">Alomatlar ${duration==='today'?'bugun boshlangan':duration==='few'?'1–3 kundan beri':duration==='week'?'4–7 kundan beri':'bir haftadan ko‘p'} davom etmoqda. Bu natija shifokor ko‘rigini almashtirmaydi.</p>`;
+ result.className='';result.innerHTML=html;
+ document.getElementById('videoTitle').textContent=emergency?'Tibbiy yordamni kechiktirmang':partNames[selectedPart]+' og‘rig‘ida keyingi qadamlar';
+ document.getElementById('videoText').textContent=emergency?'Xavfli alomatlar bo‘lsa, tez yordam chaqiring va yaqin atrofdagi kattaga xabar bering.':'Dam oling, alomatlarni kuzating va og‘riq davom etsa tibbiyot mutaxassisiga murojaat qiling.';
+ document.getElementById('steps').innerHTML=`<div class="step"><b>01 · ${emergency?'Yordam chaqiring':'Kuzating'}</b><span>${emergency?'Tez yordamga murojaat qiling.':'Og‘riq va boshqa alomatlarni qayd eting.'}</span></div><div class="step"><b>02 · Ehtiyot bo‘ling</b><span>O‘zingizcha dori yoki antibiotik boshlamang.</span></div><div class="step"><b>03 · Maslahat oling</b><span>${duration==='long'||severity==='moderate'?'Shifokor bilan bog‘laning.':'Kerak bo‘lsa shifokorga murojaat qiling.'}</span></div>`;
+});
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+document.getElementById('reset').addEventListener('click',()=>{
+ document.querySelectorAll('input[type=checkbox]').forEach(x=>x.checked=false);
+ document.querySelector('input[name=pain][value=mild]').checked=true;
+ ['firstName','lastName','age','notes'].forEach(id=>document.getElementById(id).value='');
+ document.getElementById('duration').value='today';document.getElementById('painSide').selectedIndex=0;selectPart('');
+ result.className='empty';result.textContent='Avval tana qismini tanlang, alomatlarni belgilang va “Tahlil qilish” tugmasini bosing.';
+ document.getElementById('videoTitle').textContent='Sog‘liq bo‘yicha qisqa yo‘riqnoma';document.getElementById('videoText').textContent='Tahlilni boshlang — sizga mos umumiy keyingi qadamlar shu yerda ko‘rsatiladi.';
+ document.getElementById('steps').innerHTML='<div class="step"><b>01 · Kuzating</b><span>Alomatlarni qayd eting.</span></div><div class="step"><b>02 · Ehtiyot bo‘ling</b><span>O‘zingizcha dori ichmang.</span></div><div class="step"><b>03 · Maslahat oling</b><span>Zarur bo‘lsa shifokorga boring.</span></div>';
+});
+</script>
+</body></html>
